@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container">
+<h1>Редактирование: {{task_instance.task.title}}</h1>
+<hr><br>
+<p>Долг: {{task_instance.borrower}}</p>
+    <p{% if task_instance.is_overdue %} class="text-danger"{% endif %}>Срок истечения задачи: {{task_instance.due_back}}</p>
+<br>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table class="table table-hover">
+        {{ form.as_table }}
+        </table>
+        <div class="row">
+        <a class="btn btn btn-light" href="{% url 'index' %}">
+            <i class="fas fa-cloud-download-alt mr-1"></i> Вернуться
+        </a>
+        <input type="submit" style="margin-left: auto;" class="form-control col-4" value="Отправить" />
+    </div>
+    </form>
+</div>
+{% endblock %}

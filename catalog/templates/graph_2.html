@@ -1,0 +1,74 @@
+{% extends "base_generic.html" %}
+
+    {% block graph %}
+    <div class="row">
+            <div id="bar_employees" style="width:1000px; height:600px;"></div>
+            <div id="pie_employees" style="width:1000px; height:600px;"></div>
+    </div>
+    <br><hr>
+        <div class="row">
+            <div class="container">
+                <a class="btn btn btn-secondary" href="{% url 'graph_1' %}">
+                  <i class="fas fa-cloud-download-alt mr-1"></i> Вернуться
+                </a>
+                <a class="btn btn btn-secondary col-2" style="margin-left:70%;" href="{% url 'graph_3' %}">
+                        <i class="fas fa-cloud-download-alt mr-1"></i> Далее &nbsp
+                      </a>
+            </div>
+        </div>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <script type = "text/javascript">
+            $(document).ready(function(){
+                var endpoint = '/catalog/graph/2'
+                var articleData = articleLabels = 0;
+                $.ajax({
+                    method: "GET",
+                    url: endpoint,
+                    success: function(){
+                        articleData = "{{ sub|safe }}";
+                        articleLabels = "{{ cost|safe }}"
+                        articleData = articleData.substring(1, articleData.length - 1).split(", ");
+                        articleLabels = articleLabels.substring(1, articleLabels.length - 1).split(", ");
+                        bar();
+                        pie()
+                    },
+                    error: function(error_data){
+                        console.log("error")
+                    }
+                });
+                function bar(){
+                    var data = [{
+                        x: articleData,
+                        y: articleLabels,
+                        type: 'bar',
+                        orientation: 'v',
+                        marker: {
+                            color: "#23b7e5",
+                        },
+                    }];
+                    var layout = {
+                        title: "Зависимость задания от стоимости оценки",
+                    };
+                    Plotly.newPlot('bar_employees', data, layout);
+                };
+
+                function pie(){
+                    var data = [{
+                        labels: articleData,
+                        values: articleLabels,
+                        type: 'pie',
+                        marker: {
+                            color: "#23b7e5",
+                        },
+                    }];
+
+                Plotly.newPlot('pie_employees', data);
+                };
+            })
+        </script>
+
+
+    {% endblock %}

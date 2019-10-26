@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="row">
+    <h1>Лист заданий</h1>
+    <form class="form-inline md-form form-sm active-cyan-2 mt-2">
+      <input class="form-control form-control-sm mr-3 w-75" style="margin-left:450px;" type="text" placeholder="Search"
+        aria-label="Search">
+      <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
+  </div>
+
+    <hr><br>
+    {% if task_list %}
+      {% for task in task_list %}
+      <div class="list-group">
+        <a class="list-group-item list-group-item-action" href="{{ task.get_absolute_url }}">{{ task.title }}, ({{task.child}}) </a>
+      </div>
+      {% endfor %}
+
+
+      <br>
+    {% else %}
+      <p>Нет доступных заданий</p>
+    {% endif %}
+{% endblock %}

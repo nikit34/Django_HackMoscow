@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Все долги по заданиям</h1>
+    <hr><br>
+    {% if taskinstance_list %}
+
+
+      {% for taskinst in taskinstance_list %}
+      <div class="list-group">
+      <p class="list-group-item list-group-item-action {% if taskinst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'task-detail' taskinst.task.pk %}">{{taskinst.task.title}}</a> ({{ taskinst.due_back }}) {% if user.is_staff %}- {{ taskinst.borrower }}{% endif %} {% if perms.catalog.can_mark_returned %}- <a href="{% url 'renew-task-librarian' taskinst.id %}">Продлить</a>  {% endif %}
+        </p>
+    </div>
+      {% endfor %}
+
+
+    {% else %}
+      <p>Нет долгов по заданиям</p>
+    {% endif %}
+{% endblock %}

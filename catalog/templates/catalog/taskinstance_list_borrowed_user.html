@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Все задания по долгу</h1>
+    <hr><br>
+
+    {% if taskinstance_list %}
+
+
+      {% for taskinst in taskinstance_list %}
+      <div class="list-group">
+      <li class="list-group-item {% if taskinst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'task-detail' taskinst.task.pk %}">{{taskinst.task.title}}</a> ({{ taskinst.due_back }})
+      </li>
+    </div>
+      {% endfor %}
+
+
+    {% else %}
+      <p>Нет долгов</p>
+    {% endif %}
+{% endblock %}

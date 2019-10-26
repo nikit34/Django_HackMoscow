@@ -1,0 +1,87 @@
+{% extends "base_generic.html" %}
+
+    {% block graph %}
+    <div class="row">
+            <div id="lines_employees" style="width:1000px; height:600px;"></div>
+    </div>
+    <br><hr>
+        <div class="row">
+            <div class="container">
+                <a class="btn btn btn-secondary" href="{% url 'graph_2' %}">
+                  <i class="fas fa-cloud-download-alt mr-1"></i> Вернуться
+                </a>
+            </div>
+        </div>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <script type = "text/javascript">
+            $(document).ready(function(){
+                var endpoint = '/catalog/graph/3'
+                var articleData = articleLabels = 0;
+                $.ajax({
+                    method: "GET",
+                    url: endpoint,
+                    success: function(){
+                        articleData = "{{ due_back|safe }}";
+                        articleLabels = "{{ task|safe }}"
+                        articleData = articleData.substring(1, articleData.length - 1).split(", ");
+                        articleLabels = articleLabels.substring(1, articleLabels.length - 1).split(", ");
+                        lines();
+                    },
+                    error: function(error_data){
+                        console.log("error")
+                    }
+                });
+                function lines(){
+                    var selectorOptions = {
+                    buttons: [{
+                        step: 'month',
+                        stepmode: 'backward',
+                        count: 1,
+                        label: '1m'
+                    }, {
+                        step: 'month',
+                        stepmode: 'backward',
+                        count: 6,
+                        label: '6m'
+                    }, {
+                        step: 'year',
+                        stepmode: 'todate',
+                        count: 1,
+                        label: 'YTD'
+                    }, {
+                        step: 'year',
+                        stepmode: 'backward',
+                        count: 1,
+                        label: '1y'
+                    }, {
+                    step: 'all',
+                    }],
+                    };
+                    var data = [{
+                        x: articleData,
+                        y: articleLabels,
+                        mode: 'lines',
+
+                        marker: {
+                            color: "#23b7e5",
+                        },
+                    }];
+                    var layout = {
+        title: 'Зависимость заданий от временного среза',
+        xaxis: {
+            rangeselector: selectorOptions,
+            rangeslider: {}
+        },
+        yaxis: {
+            fixedrange: true
+        }
+    };
+                    Plotly.newPlot('lines_employees', data, layout);
+                };
+            })
+        </script>
+
+    {% endblock %}

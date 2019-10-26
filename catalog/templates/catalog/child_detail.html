@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Ребёнок: {{ child }} </h1>
+<p>{{child.date_of_birth}} - {% if child.group %}{{child.group}}{% endif %}</p>
+
+<div style="margin-left:20px;margin-top:20px">
+<h4>Задания</h4>
+
+<dl>
+{% for task in child.task_set.all %}
+  <dt><a href="{% url 'task-detail' task.pk %}">{{task}}</a> ({{task.taskinstance_set.all.count}})</dt>
+  <dd>{{task.summary}}</dd>
+  <dd>{{task.cost}}</dd>
+{% endfor %}
+</dl>
+
+</div>
+{% endblock %}

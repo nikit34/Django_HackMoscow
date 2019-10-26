@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Наименование: {{ task.title }}</h1>
+
+<p><strong>Предназначен:</strong> <a href="{% url 'child-detail' task.child.pk %}">{{ task.child }}</a></p>
+<p><strong>Описание:</strong> {{ task.summary }}</p>
+<p><strong>Вес оценки:</strong> {{ task.cost }}</p>
+<p><strong>ID:</strong> {{ task.isbn }}</p>
+<p><strong>Учитель:</strong> {{ task.teacher }}</p>
+<p><strong>Предмет:</strong> {{ task.subject.all|join:", " }}</p>
+<br><br>
+<a class="btn btn btn-warning" style="margin-left:60%;" href="{% url 'info_graph' %}">
+        <i class="fas fa-cloud-download-alt mr-1"></i> Подробнее о способностях ребенка
+      </a>
+      <br>
+
+<div style="margin-left:20px;margin-top:20px">
+<h4>Сведенья о неуспеваемости ребёнка</h4>
+
+{% for copy in task.taskinstance_set.all %}
+<hr>
+<p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'p' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+{% if copy.status != 'a' %}<p><strong>Должен был сдан:</strong> {{copy.due_back}}</p>{% endif %}
+<p><strong>Причина:</strong> {{copy.imprint}}</p>
+<p class="text-muted"><strong>ID:</strong> {{copy.id}}</p>
+
+{% endfor %}
+</div>
+{% endblock %}

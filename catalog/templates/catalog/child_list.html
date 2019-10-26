@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="row"><h1>Лист группы детей</h1>
+  <form class="form-inline md-form form-sm active-cyan-2 mt-2">
+    <input class="form-control form-control-sm mr-3 w-75" style="margin-left:350px;" type="text" placeholder="Search"
+      aria-label="Search">
+    <i class="fas fa-search" aria-hidden="true"></i>
+  </form>
+</div>
+
+<hr><br>
+
+{% if child_list %}
+
+  {% for child in child_list %}
+    <div class="list-group">
+      <a class="list-group-item list-group-item-action" href="{{ child.get_absolute_url }}">
+      {{ child }} ({{child.date_of_birth}} - {% if child.group %}{{child.group}}{% endif %})
+      </a>
+    </div>
+
+  {% endfor %}
+  <br>
+{% else %}
+  <p>Нет доступных владельцев</p>
+{% endif %}
+
+
+{% endblock %}

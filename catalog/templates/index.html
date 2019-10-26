@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<div class="jumbotron">
+<h3 class="display-8">Цифровое образование</h3>
+<style>
+      P {
+       text-indent: 1.5em; /* Отступ первой строки */
+       text-align: justify; /* Выравнивание по ширине */
+      }
+     </style>
+<p class="lead">
+     Сервис <em>Цифрового образования</em> направлен на решение задачи составления индивидуальной траектории образования Вашего ребенка. </p><p class="lead">Наше П.О. поддерживает три уровня прав доступа к данным, что делает возможным разграничения ролей на <h5 style="text-align:center">"Родитель",  "Учитель",  "Ребенок".</h5></p><p> Он дает возможность составителям (родителям и учителям) составлять задания с автоматической проверкой корректности. Включает расширенные и гибкие панели админстратирования. Архитектура веб-сервиса заложена с возможностью маштабируемости и применим для различных ступеней образования. Возможный заказчик:  <a href="https://www.minobrnauki.gov.ru/">Министерство образования и науки Российской Федерации</a></p>
+<hr class="my-4">
+<a class="btn btn-outline-info" onclick="toggle_visibility('hide_info');"role="button">Узнать больше</a>
+
+<div id="hide_info"  style="display: none;" >
+<h2 >Разработан на Django</h2>
+<p>Взаимодействует с Яндекс Карты API и open source framework для визуализации Dash </p>
+
+<div>
+  {% load static %}
+<img src="{% static 'images/gerb.png' %}" alt="My image" style="width:555px;height:540px;"/>
+</div>
+
+</div>
+</div>
+
+<script type="text/javascript">
+      function toggle_visibility(id) {
+         var e = document.getElementById(id);
+         if(e.style.display != 'none')
+            e.style.display = 'none';
+         else
+            e.style.display = 'block';
+      }
+  </script>
+
+
+<h2>Динамический контент</h2>
+
+<p>Регистр имеет следующую статистику записей</p>
+<ul>
+   <li><strong>Общее количество аданий:</strong> {{ num_tasks }}</li>
+   <li><strong>Общее количество копий:</strong> {{ num_instances }}</li>
+   <li><strong>Копий доступно:</strong> {{ num_instances_available }}</li>
+   <li><strong>Количество детей:</strong> {{ num_childs }}</li>
+</ul>
+
+
+Вы посетили эту страницу {{ num_visits }} раз.
+
+{% endblock %}

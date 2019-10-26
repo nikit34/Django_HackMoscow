@@ -1,0 +1,81 @@
+{% extends "base_generic.html" %}
+
+    {% block graph %}
+    <div class="row">
+            <div id="myDiv" style="width: 100%; height: 100%"></div>
+    </div>
+
+        <div class="row">
+            <div class="container">
+                <a class="btn btn btn-secondary" href="{% url 'index' %}">
+                  <i class="fas fa-cloud-download-alt mr-1"></i> Вернуться
+                </a>
+                <a class="btn btn btn-secondary col-2" style="margin-left:50%;"  href="{% url 'graph_2' %}">
+                        <i class="fas fa-cloud-download-alt mr-1"></i> Далее &nbsp
+                      </a>
+            </div>
+        </div>
+
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+
+        <script type = "text/javascript">
+            $(document).ready(function(){
+                var endpoint = '/catalog/info_graph/'
+                var articleData = articleLabels = 0;
+                $.ajax({
+                    method: "GET",
+                    url: endpoint,
+                    success: function(){
+                        articleData_x1 = "{{ x1|safe }}";
+                        articleData_y1 = "{{ y1|safe }}";
+                        articleData_z1 = "{{ z1|safe }}";
+
+                        articleData_x1 = eval('{'+articleData_x1+'}');
+                        articleData_y1 = eval('{'+articleData_y1+'}');
+                        articleData_z1 = eval('{'+articleData_z1+'}');
+
+                        scatter3();
+                    },
+                    error: function(error_data){
+                        console.log("error")
+                    }
+                });
+
+        function scatter3(){
+
+        var data = [{
+            x: articleData_x1,
+            y: articleData_y1,
+            z: articleData_z1,
+            mode: 'markers',
+            marker: {
+                size: 12,
+                line: {
+                color: 'rgba(217, 217, 217, 0.14)',
+                width: 0.5
+            },
+            opacity: 0.8
+            },
+            type: 'scatter3d'
+            }];
+        console.log("datadatadata");
+        console.log(data);
+        var layout = {
+            dragmode: false,
+            margin: {
+                l: 0,
+                r: 0,
+                b: 0,
+                t: 0
+            },
+        };
+        Plotly.newPlot('myDiv', data, layout);
+        };
+            })
+        </script>
+
+
+    {% endblock %}
