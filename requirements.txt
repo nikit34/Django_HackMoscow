@@ -2,7 +2,7 @@ Brotli==1.0.7
 certifi==2019.9.11
 chardet==3.0.4
 dj-database-url==0.5.0
-Django==2.2.6
+Django==2.2.22
 django-autoslug-iplweb==1.9.4
 django-dash==0.5.6
 django-heroku==0.3.1
